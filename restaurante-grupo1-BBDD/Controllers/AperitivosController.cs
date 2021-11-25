@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -10,8 +11,8 @@ using System.Text.RegularExpressions;
 
 namespace restaurante_grupo1_BBDD.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class AperitivosController : ControllerBase
     {
         private readonly IConfiguration _configuration;
