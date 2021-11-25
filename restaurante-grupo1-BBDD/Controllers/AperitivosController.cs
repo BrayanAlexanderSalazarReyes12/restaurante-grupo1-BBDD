@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using restaurante_grupo1_BBDD.models;
 using System;
@@ -12,8 +11,8 @@ using System.Text.RegularExpressions;
 
 namespace restaurante_grupo1_BBDD.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class AperitivosController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -23,14 +22,6 @@ namespace restaurante_grupo1_BBDD.Controllers
             _configuration = configuration;
             _env = env;
         }
-
-        private readonly ILogger<AperitivosController> _logger;
-
-        public AperitivosController(ILogger<AperitivosController> logger)
-        {
-            _logger = logger;
-        }
-
         //consultar aperitivos
         [HttpGet]
         public JsonResult Get()
