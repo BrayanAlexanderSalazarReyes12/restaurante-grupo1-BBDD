@@ -11,8 +11,8 @@ using System.Text.RegularExpressions;
 
 namespace restaurante_grupo1_BBDD.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class AperitivosController : ControllerBase
     {
         private readonly IConfiguration _configuration;
