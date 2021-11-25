@@ -3,26 +3,27 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using Practica.models;
+using restaurante_grupo1_BBDD.models;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 
-namespace Practica.Controllers
+namespace restaurante_grupo1_BBDD.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EnsaladasController : ControllerBase
+    public class SopasController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        public EnsaladasController(IConfiguration configuration, IWebHostEnvironment env)
+        public SopasController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
             _env = env;
         }
-        //consultar ensaladas
+
+        //consultar sopas
         [HttpGet]
         public JsonResult Get()
         {
@@ -47,7 +48,8 @@ namespace Practica.Controllers
             return new JsonResult(table);
         }
 
-        //insertar ensaladas
+
+        //insertar sopas
         [HttpPost("{categoria},{nombre},{img},{tokenimg},{descrip},{precio}")]
         public object PostEnsaladas(string categoria, string nombre, string img, string tokenimg, string descrip, int precio)
         {
@@ -68,7 +70,7 @@ namespace Practica.Controllers
                         myCommand.CommandText = query;
                         myCommand.Parameters.AddWithValue("@categoria", categoria);
                         myCommand.Parameters.AddWithValue("@nombre", nombre);
-                        myCommand.Parameters.AddWithValue("@img", "https://firebasestorage.googleapis.com/v0/b/restaurantetic21.appspot.com/o/ensaladas%2F" + img);
+                        myCommand.Parameters.AddWithValue("@img", "https://firebasestorage.googleapis.com/v0/b/restaurantetic21.appspot.com/o/sopas%2F" + img);
                         myCommand.Parameters.AddWithValue("@tokenimg", tokenimg);
                         myCommand.Parameters.AddWithValue("@descrip", descrip);
                         myCommand.Parameters.AddWithValue("@precio", precio);
@@ -96,11 +98,11 @@ namespace Practica.Controllers
             }
         }
 
-        //Acutalizar ensaladas
+        //Acutalizar sopas
         [HttpPut]
-        public JsonResult Put(Ensaladas ens)
+        public JsonResult Put(Sopas sop)
         {
-           
+
             string query = @"
                         update platos set 
                         nombre = @EnsaladasNombre,
@@ -122,14 +124,14 @@ namespace Practica.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@EnsaladasId", ens.id);
-                    myCommand.Parameters.AddWithValue("@EnsaladasNombre", ens.nombre);
-                    myCommand.Parameters.AddWithValue("@EnsaladasImagen", "https://firebasestorage.googleapis.com/v0/b/restaurantetic21.appspot.com/o/ensaladas%2F" + ens.url);
-                    myCommand.Parameters.AddWithValue("@tokenimg", ens.tokenimg);
-                    myCommand.Parameters.AddWithValue("@EnsaladasDescrip", ens.descrip);
-                    myCommand.Parameters.AddWithValue("@EnsaladasPrecio", ens.precio);
-                    myCommand.Parameters.AddWithValue("@EnsaladasActualizarinfo", "#" + Regex.Replace(ens.nombre, @" ", "_"));
-                    myCommand.Parameters.AddWithValue("@Ensaladasnomsinespacio", Regex.Replace(ens.nombre, @" ", "_"));
+                    myCommand.Parameters.AddWithValue("@EnsaladasId", sop.id);
+                    myCommand.Parameters.AddWithValue("@EnsaladasNombre", sop.nombre);
+                    myCommand.Parameters.AddWithValue("@EnsaladasImagen", "https://firebasestorage.googleapis.com/v0/b/restaurantetic21.appspot.com/o/sopas%2F" + sop.url);
+                    myCommand.Parameters.AddWithValue("@tokenimg", sop.tokenimg);
+                    myCommand.Parameters.AddWithValue("@EnsaladasDescrip", sop.descripcion);
+                    myCommand.Parameters.AddWithValue("@EnsaladasPrecio", sop.precio);
+                    myCommand.Parameters.AddWithValue("@EnsaladasActualizarinfo", "#" + Regex.Replace(sop.nombre, @" ", "_"));
+                    myCommand.Parameters.AddWithValue("@Ensaladasnomsinespacio", Regex.Replace(sop.nombre, @" ", "_"));
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
